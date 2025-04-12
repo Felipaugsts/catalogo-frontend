@@ -1,0 +1,16 @@
+
+.rootBody {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.navbar-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10; /* Garante que a navbar fique acima do restante do conteúdo */
+  background-color: #fff; /* Adicione uma cor de fundo, se necessário */
+}
