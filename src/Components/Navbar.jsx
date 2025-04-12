@@ -12,7 +12,7 @@ const Navbar = ({ user, cartItems }) => {
           <a className="btn btn-ghost text-xl">Floricultura Brasil</a>
         </div>
   
-        {!user && (
+        {user ? (
           <div className="flex-none">
             {/* Carrinho */}
             <div className="dropdown dropdown-end">
@@ -56,7 +56,7 @@ const Navbar = ({ user, cartItems }) => {
               </ul>
             </div>
           </div>
-        )}
+        ): (<button>Login</button>)}
       </div>
     );
   };

@@ -1,10 +1,10 @@
-const ThemeSwitcher = ({ onToggle }) => {
+const ThemeSwitcher = ({ onToggle, isDark }) => {
     return (
       <div className="toggle-sm">
 
 <label className="swap swap-rotate">
   {/* this hidden checkbox controls the state */}
-  <input type="checkbox" onChange={(e) => onToggle(e.target.checked)} />
+  <input type="checkbox" checked={isDark} onChange={(e) => onToggle(e.target.checked)} />
 
  {/* moon icon */}
  <svg
