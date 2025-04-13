@@ -6,36 +6,40 @@ const initialState = {
   userUID: null,
   loading: false,
   darkMode: true,
+  authenticated: false,
+  cartItems: []
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUserActive: (state, action) => {
-      state.userEmail = action.payload.userEmail;
-      state.userName = action.payload.userName;
-      state.userUID = action.payload.UID;
+    setUserActive: (state) => {
+      state.authenticated = true
     },
+
     setLogoutUser: (state) => {
-      state.userEmail = null;
-      state.userName = null;
-      state.userUID = null;
-      sessionStorage.clear();
+      state.authenticated = false
+      localStorage.clear();
       window.location.reload();
     },
+
     setLoader: (state, action) => {
       state.loading = action.payload.loading;
     },
+
     setTheme: (state, action) => {
       state.darkMode = action.payload;
-      console.log("darkMode updated:", action.payload);
+    },
+
+    setCartItem: (state, action) => {
+      state.cartItems = action.payload.cartItem;
     },
   },
 });
 
 // ✅ Exports
-export const { setUserActive, setLogoutUser, setLoader, setTheme } = userSlice.actions;
+export const { setUserActive, setLogoutUser, setLoader, setTheme, setCartItem } = userSlice.actions;
 
 export const selectUserName = (state) => state.user.userName;
 export const selectUserEmail = (state) => state.user.userEmail;

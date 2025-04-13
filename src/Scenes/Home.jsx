@@ -1,54 +1,20 @@
 
-import Card from "../Components/Card";
-import Navbar from '../Components/Navbar';
+import Card from "../Components/UI/Card";
 import { useEffect, useState } from 'react';
-import ThemeSwitcher from '../Components/ThemeSwitcher';
+import ThemeSwitcher from '../Components/UI/ThemeSwitcher';
 import { useDispatch, useSelector } from "react-redux";
-import { setTheme } from "../Reducer/UserSlice";
-const products = [
-  {
-    title: "Rosas Vermelhas",
-    description: "Simbolizam o amor e a paixão, perfeitas para qualquer ocasião especial.",
-    image: "https://img.freepik.com/fotos-gratis/close-up-de-uma-flor-roxa_181624-25863.jpg",
-    isNew: true,
-    rating: 3,
-    price: 100
-  },
-  {
-    title: "Orquídeas Exóticas",
-    description: "Elegância e sofisticação em cada flor, um presente perfeito para quem você ama.",
-    image: "https://services.meteored.com/img/article/belleza-a-prueba-de-sequia-las-mejores-flores-para-sobrevivir-al-verano-en-la-zona-central-de-chile-1725645418831_512.jpeg",
-    isNew: false,
-    rating: 1,
-    price: 99.00
-  },
-  {
-    title: "Girassóis Radiantes",
-    description: "Flores que representam felicidade e otimismo, ideais para iluminar qualquer ambiente.",
-    image: "https://www.dzoom.org.es/wp-content/uploads/2019/07/fotografia-flores-primavera-consejos.jpg",
-    isNew: true,
-    rating: 5,
-    price: 100
-  },
-  {
-    title: "Tulipas Coloridas",
-    description: "Com suas cores vibrantes, as tulipas trazem frescor e vida para qualquer espaço.",
-    image: "https://www.dzoom.org.es/wp-content/uploads/2019/07/fotografia-flores-primavera-consejos.jpg",
-    isNew: false,
-    rating: 2,
-    price: 100
-  },
-];
+import { setTheme, setCartItem } from "../Reducer/UserSlice";
+import api from '../Service/Service';
 
 const Home = () => {
   const dispatch = useDispatch()
-  const [cartItems, setCartItem] = useState([]);
+  const cartItems = useSelector((state) => state.user.cartItems);
   const selectDarkMode = useSelector((state) => state.user.darkMode);
+  const [productList, setProducts] = useState([])
 
   function handleAddToCart(item) {
-    setCartItem((prevItems) => {
-      return [...prevItems, item];
-    });
+    const updatedCart = [...cartItems, item];
+    dispatch(setCartItem({ cartItem: updatedCart }));
   }
 
   function setDarkTheme(isDark) { 
@@ -59,10 +25,20 @@ const Home = () => {
   }
 
   useEffect(() => {
-    console.log("Itens no carrinho:", cartItems.length);
-  }, [cartItems]);
+    const fetchProducts = async () => {
+      try {
+        const response = await api.get('/products');
+        const products = response.data;
+        setProducts(products)
+      } catch (error) {
+        console.error("Erro ao buscar produtos:", error);
+      }
+    };
+  
+    fetchProducts();
+  }, []);
 
-  return (
+  return ( 
     <div>
       <div className="flex flex-wrap gap-6 justify-end mt-10 rootBody">
         <ThemeSwitcher onToggle={setDarkTheme} isDark={selectDarkMode} />
@@ -71,9 +47,9 @@ const Home = () => {
       <div className="flex flex-wrap gap-6 justify-start mt-10 rootBody">
         <h1 className="text-5xl font-bold">Catálogo de Flores!</h1>
         <div className="flex flex-wrap gap-6 justify-start mt-10">
-          {products.map((item) => (
+          {productList.map((item) => (
             <Card
-              key={item.id}
+              key={item.productID}
               item={item}
               onClickAddToCart={() => handleAddToCart(item)}
             />

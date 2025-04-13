@@ -1,18 +1,26 @@
 import CartButton from "./CartButton";
+import { useNavigate } from 'react-router-dom';
 
-const Navbar = ({ user, cartItems }) => {
+const Navbar = ({ authenticated, cartItems, onClickLogout }) => {
+
+  const navigate = useNavigate();
 
     function finalPrice() {
-        return cartItems.reduce((total, item) => total + Number(item.price), 0);
+        return cartItems?.reduce((total, item) => total + Number(item.price), 0);
       }      
 
     return (
       <div className="navbar bg-base-100 shadow-sm">
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">Floricultura Brasil</a>
+        <button
+          className="btn btn-ghost text-xl"
+          onClick={() => navigate('/')}
+        >
+          Floricultura Brasil
+        </button>
         </div>
   
-        {user ? (
+        {authenticated ? (
           <div className="flex-none">
             {/* Carrinho */}
             <div className="dropdown dropdown-end">
@@ -22,8 +30,8 @@ const Navbar = ({ user, cartItems }) => {
                 className="card card-compact dropdown-content bg-base-100 z-10 mt-3 w-52 shadow"
               >
                 <div className="card-body">
-                  <span className="text-lg font-bold">8 Items</span>
-                  <span className="text-info">Subtotal: R$: {finalPrice()}</span>
+                  <span className="text-lg font-bold">{cartItems?.length} Items</span>
+                  <span className="text-info">Total: R$: {finalPrice()}</span>
                   <div className="card-actions">
                     <button className="btn btn-primary btn-block">View cart</button>
                   </div>
@@ -45,18 +53,11 @@ const Navbar = ({ user, cartItems }) => {
                 tabIndex={0}
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
               >
-                <li>
-                  <a className="justify-between">
-                    Profile
-                    <span className="badge">New</span>
-                  </a>
-                </li>
-                <li><a>Settings</a></li>
-                <li><a>Logout</a></li>
+                <li><button className="btn btn-ghost text-xl" onClick={onClickLogout}>Logout</button></li>
               </ul>
             </div>
           </div>
-        ): (<button>Login</button>)}
+        ): (<button className="btn btn-ghost text-xl" onClick={() => navigate('/login')}>Login</button>)}
       </div>
     );
   };

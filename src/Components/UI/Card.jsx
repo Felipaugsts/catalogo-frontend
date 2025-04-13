@@ -5,7 +5,7 @@ const Card = ({item, onClickAddToCart}) => {
   return (
     <div className="card bg-base-100 w-96 shadow-sm hover:shadow-lg cursor-pointer ">
       <figure>
-        <img src={item.image} />
+        <img src={item.imageUrl} />
       </figure>
       <div className="card-body">
         <h2 className="card-title">
