@@ -21,7 +21,6 @@ const userSlice = createSlice({
     setLogoutUser: (state) => {
       state.authenticated = false
       localStorage.clear();
-      window.location.reload();
     },
 
     setLoader: (state, action) => {

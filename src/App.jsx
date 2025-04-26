@@ -8,6 +8,7 @@ import Login from './Scenes/Login';
 import { useEffect } from 'react';
 import api from './Service/Service';
 import { setUserActive, setLogoutUser } from './Reducer/UserSlice';
+import Dashboard from './Scenes/Dashboard/Dashboard';
 
 const AppContent = () => {
   const selectDarkMode = useSelector((state) => state.user.darkMode);
@@ -52,7 +53,7 @@ const AppContent = () => {
       />
 
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
