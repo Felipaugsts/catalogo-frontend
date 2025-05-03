@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import {api} from './Service/Service';
 import { setUserActive, setLogoutUser, setCartItem } from './Reducer/UserSlice';
 import Footer from './Components/Footer';
+import '../src/Service/firebase'
 
 const AppContent = () => {
   const selectDarkMode = useSelector((state) => state.user.darkMode);
