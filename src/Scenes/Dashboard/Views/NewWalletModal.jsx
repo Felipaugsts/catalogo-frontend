@@ -16,21 +16,21 @@ const AddWalletModal = ({ isOpen, onClose, onAddWallet }) => {
     }
   }, [isOpen]); // O efeito será executado sempre que isOpen mudar
 
-  const handleAddClick = () => {
+  const handleAddClick = async () => {
     if (walletName && xpub) {
       setLoading(true);
-      onAddWallet({ walletName, xpub })
-        .then(() => {
-          setLoading(false); // Desliga o loading depois de adicionar
-          onClose(); // Fecha o modal após adicionar
-        })
-        .catch(() => {
-          setLoading(false); // Desliga o loading em caso de erro
-        });
+      try {
+        await onAddWallet({ walletName, xpub });  // Espera a Promise ser resolvida
+        setLoading(false);  // Desliga o loading
+        onClose(); // Fecha o modal após adicionar
+      } catch (error) {
+        setLoading(false); // Desliga o loading em caso de erro
+        // Trate o erro, se necessário
+      }
     } else {
       alert('Por favor, preencha todos os campos.');
     }
-  };
+  };  
 
   return (
     <dialog id="add_wallet_modal" className={`modal ${isOpen ? 'modal-open' : ''}`}>

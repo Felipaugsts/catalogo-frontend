@@ -18,7 +18,7 @@ const CartButton = ({itemsAddOnCart, onClickCartButton}) => {
         />
       </svg>
       {itemsAddOnCart >= 1 && (
-        <span className="badge badge-soft badge-success badge-sm indicator-item">{itemsAddOnCart}</span>
+        <span className="badge badge-soft badge-error badge-sm indicator-item">{itemsAddOnCart}</span>
       )}
     </div>
     </button>

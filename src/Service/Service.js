@@ -1,7 +1,18 @@
 import axios from 'axios';
+  
+const isDebug = true
+const baseURL = isDebug ? 'http://127.0.0.1:8000/' : 'https://client-application-i1q3.onrender.com/'
 
-const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000/',
+export const api = axios.create({
+  baseURL: baseURL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+
+export const apiPublic = axios.create({
+  baseURL: baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -14,5 +25,3 @@ api.interceptors.request.use((config) => {
    }
   return config;
 });
-
-export default api;

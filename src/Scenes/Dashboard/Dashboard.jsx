@@ -224,23 +224,24 @@ const Dashboard = () => {
       });
   }
 
-  const handleAddWallet = ({ walletName, xpub }) => {
-  const payload = {
-    "name": walletName,
-    "wallet_type": "watch-only",
-    "xpub": xpub
-  }
-  DashboardService.createWallet(payload, dispatch)
-    .then(data => {
-      console.log(data)
-      fetchUserWallets()
-      setIsModalOpen(false)
-    })
-    .catch(error => {
-      setIsModalOpen(false)
+  const handleAddWallet = async ({ walletName, xpub }) => {
+    const payload = {
+      name: walletName,
+      wallet_type: "watch-only",
+      xpub: xpub
+    };
+  
+    try {
+      // Use await para esperar a resposta da Promise
+      const data = await DashboardService.createWallet(payload, dispatch);
+      console.log(data);
+      fetchUserWallets(); // Atualiza as carteiras do usuário
+      setIsModalOpen(false); // Fecha o modal
+    } catch (error) {
+      setIsModalOpen(false); // Fecha o modal em caso de erro
       console.error("Erro ao carregar o histórico de preços:", error);
-    });
-  }
+    }
+  };  
 
   const fetchUserWallets = () => { 
     setLoadingWallet(true)

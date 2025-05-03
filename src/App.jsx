@@ -6,20 +6,20 @@ import { Provider, useDispatch, useSelector } from 'react-redux';
 import { store } from './Reducer/store';
 import Login from './Scenes/Login';
 import { useEffect } from 'react';
-import api from './Service/Service';
-import { setUserActive, setLogoutUser } from './Reducer/UserSlice';
-import Dashboard from './Scenes/Dashboard/Dashboard';
+import {api} from './Service/Service';
+import { setUserActive, setLogoutUser, setCartItem } from './Reducer/UserSlice';
+import Footer from './Components/Footer';
 
 const AppContent = () => {
   const selectDarkMode = useSelector((state) => state.user.darkMode);
   const authenticated = useSelector((state) => state.user.authenticated);
   const cartItems = useSelector((state) => state.user.cartItems);
-
+  
   const dispatch = useDispatch();
 
   const accessToken = localStorage.getItem('access_token');
   const refreshTokenStored = localStorage.getItem('refresh_token');
-
+  
   useEffect(() => {
     if (!authenticated && refreshTokenStored && accessToken) {
       refreshToken();
@@ -43,19 +43,35 @@ const AppContent = () => {
     }
   }
 
+  function handleRemovedFromCart(item) {
+    console.log("item removed", item);
+  
+    const index = cartItems.findIndex((i) => i.productID === item.productID);
+    
+    if (index !== -1) {
+      const updatedCart = [...cartItems]; 
+      updatedCart.splice(index, 1);
+  
+      dispatch(setCartItem({ cartItem: updatedCart }));
+    }
+  }
+
   return (
-    <div data-theme={selectDarkMode ? 'dim' : 'autumn'}>
+    <div data-theme={selectDarkMode ? 'dim' : 'garden'}>
       <BrowserRouter>
       <Navbar
         authenticated={authenticated}
         onClickLogout={() => dispatch(setLogoutUser())}
         cartItems={cartItems}
+        onRemoveItem={(item) => handleRemovedFromCart(item)}
       />
 
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
         </Routes>
+
+        <Footer />
       </BrowserRouter>
     </div>
   );
