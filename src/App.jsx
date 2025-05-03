@@ -15,9 +15,7 @@ const AppContent = () => {
   const selectDarkMode = useSelector((state) => state.user.darkMode);
   const authenticated = useSelector((state) => state.user.authenticated);
   const cartItems = useSelector((state) => state.user.cartItems);
-  
   const dispatch = useDispatch();
-
   const accessToken = localStorage.getItem('access_token');
   const refreshTokenStored = localStorage.getItem('refresh_token');
   
